@@ -54,7 +54,25 @@ describe('Board', function (){
 	  expect(b.outOfBounds(1)).to.be(false)
 	  expect(b.outOfBounds(size)).to.be(true)
 	  expect(b.outOfBounds(size - 1 )).to.be(false)
+	})
+  })
 
+
+  describe('#cellAlive', function(){
+	it('returns true when a cell is alive, false when it is dead',function(){
+	  b = new Board(10)
+	  expect(b.cellAlive(1,1)).to.be(false)
+	})
+	it('returns false when the index is out of bounds',function(){
+	  b = new Board(10)
+	  expect(b.cellAlive(-1,-1)).to.be(false)
+	})
+  })
+
+  describe('#countAliveNeighbours', function(){
+	it('returns 0 when all neighbours are dead',function(){
+	  b = new Board(10)
+	  expect(b.countAliveNeighbours(1,1)).to.be(0)
 	})
   })
 })
