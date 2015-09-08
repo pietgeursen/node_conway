@@ -32,6 +32,10 @@ Board.prototype = {
 
   ressurectable: function(num_neighbours){
 	return num_neighbours === 3
+  },
+
+  outOfBounds: function(index){
+	return index < 0 || index >= this.cells.length
   }
 
 }

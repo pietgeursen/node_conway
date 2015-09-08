@@ -40,8 +40,21 @@ describe('Board', function (){
 	it('has both dimensions set by the constructor', function(){
 	  var size = 23
 	  b = new Board(size)
-	  expect(b.cells.length).to.be(size) 
-	  expect(b.cells[0].length).to.be(size) 
+	  expect(b.cells.length).to.be(size)
+	  expect(b.cells[0].length).to.be(size)
+	})
+  })
+
+  describe('#outOfBounds', function(){
+	it('returns false if the array index is out of bounds', function(){
+	  var size = 10
+	  b = new Board(size)
+	  expect(b.outOfBounds(-1)).to.be(true)
+	  expect(b.outOfBounds(0)).to.be(false)
+	  expect(b.outOfBounds(1)).to.be(false)
+	  expect(b.outOfBounds(size)).to.be(true)
+	  expect(b.outOfBounds(size - 1 )).to.be(false)
+
 	})
   })
 })
