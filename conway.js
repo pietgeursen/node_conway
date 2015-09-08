@@ -33,13 +33,40 @@ Board.prototype = {
 	}
   },
 
+  atEachLocation: function(f){
+	for(r = 0; r < this.cells.length; r++){
+	  for(c = 0; c < this.cells.length; c++){
+		f(r, c)
+	  }
+	}
+  },
+
+  deathCycle: function(){
+	this.atEachLocation(function(r,c){
+	  var aliveNeighbours = this.countAliveNeighbours(r,c)
+
+	  if(over_populated(aliveNeighbours) || under_populated(aliveNeighbours)){
+		this.cells[r][c].alive = false
+	  }
+	})
+  },
+
+  birthCycle: function(){
+	this.atEachLocation(function(){
+	  var aliveNeighbours = this.countAliveNeighbours(r,c)
+	  if(ressurectable(aliveNeighbours)){
+		this.cells[r][c].alive = true
+	  }
+	})
+  },
+
   countAliveNeighbours: function(r,c){
 	var count = 0;
-	
+
 	for(i = 0; i < this.neighbours.length; i++){
-	 if(this.cellAlive(this.neighbours[i][0], this.neighbours[i][1])){
-	  count++
-	 }
+	  if(this.cellAlive(this.neighbours[i][0], this.neighbours[i][1])){
+		count++
+	  }
 	}
 	return count
   },

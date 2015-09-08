@@ -57,11 +57,12 @@ describe('Board', function (){
 	})
   })
 
-
   describe('#cellAlive', function(){
 	it('returns true when a cell is alive, false when it is dead',function(){
 	  b = new Board(10)
 	  expect(b.cellAlive(1,1)).to.be(false)
+	  b.cells[1][1].alive = true
+	  expect(b.cellAlive(1,1)).to.be(true)
 	})
 	it('returns false when the index is out of bounds',function(){
 	  b = new Board(10)
