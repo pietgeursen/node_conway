@@ -17,7 +17,16 @@ Board = function(size){
 Board.prototype = {
   under_populated: function(num_neighbours){
 	return num_neighbours < 2
+  },
+
+  over_populated: function(num_neighbours){
+	return num_neighbours > 3
+  },
+
+  ressurectable: function(num_neighbours){
+	return num_neighbours === 3
   }
+
 
 }
 
