@@ -4,10 +4,10 @@ var Conway = require ('../conway.js')
 var Cell = Conway.Cell
 //var Board = Conway.Board
 
-describe('Test', function (){
-  it('should work', function(){
+describe('Cell', function (){
+  it('should start life dead', function(){
 	c = new Cell()
-	expect(c.things).to.be('stuff')
+	expect(c.alive).to.be(false)
   })
 
 })

@@ -1,8 +1,10 @@
-var test = {things: 'stuff'}
+var cell =  {
+  alive: false
+}
 
-var Test = function(){
+var Cell = function(){
   this.stuff = 'things'
 }
-Test.prototype = test
+Cell.prototype = cell
 
-exports.Cell = Test
+exports.Cell = Cell 
