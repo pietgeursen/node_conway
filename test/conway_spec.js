@@ -36,7 +36,14 @@ describe('Board', function (){
 	})
   })
 
-
+  describe('cells array', function(){
+	it('has both dimensions set by the constructor', function(){
+	  var size = 23
+	  b = new Board(size)
+	  expect(b.cells.length).to.be(size) 
+	  expect(b.cells[0].length).to.be(size) 
+	})
+  })
 })
 
 

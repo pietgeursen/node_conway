@@ -11,7 +11,14 @@ exports.Cell = Cell
 
 
 Board = function(size){
-  this.size = size
+  this.cells = []
+  for(r = 0; r< size; r++){
+	var row = []
+	for(c = 0; c< size; c++){
+	  row.push(new Cell())
+	}
+	this.cells.push(row)
+  }
 }
 
 Board.prototype = {
@@ -26,7 +33,6 @@ Board.prototype = {
   ressurectable: function(num_neighbours){
 	return num_neighbours === 3
   }
-
 
 }
 
