@@ -22,6 +22,30 @@ Board = function(size){
 }
 
 Board.prototype = {
+  run: function(){
+	this.deathCycle()
+	this.birthCycle()
+	this.displayBoard()
+  },
+
+  displayBoard: function(){
+	for(i=0; i<this.cells.length; i++){
+	  this.displayRow(this.cells[i])
+	}
+  },
+
+  displayRow: function(row){
+	for(i=0; i<row.length; i++){
+	  this.displayCell(row[i])
+	}
+  },
+
+  displayCell: function(cell){
+	var char = cell.alive ? '|X|' : '| |'
+	process.stdout.write(char)
+  },
+
+
   neighbours: [[-1,1],[0,1],[1,1],[1,0],[1,-1],[0,-1],[-1,-1],[-1,0]],
 
   cellAlive: function(r,c){
