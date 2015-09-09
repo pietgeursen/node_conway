@@ -1,15 +1,20 @@
 var expect = require ('expect.js')
 var Conway = require ('../conway.js')
+var simple = require('simple-mock')
 
 var Cell = Conway.Cell
 var Board = Conway.Board
 
 describe('Cell', function (){
   it('should start life dead', function(){
-	c = new Cell()
+	c = new Cell(false)
 	expect(c.alive).to.be(false)
   })
 
+  it('should start life alive', function(){
+	c = new Cell(true)
+	expect(c.alive).to.be(true)
+  })
 })
 
 describe('Board', function (){
@@ -60,6 +65,7 @@ describe('Board', function (){
   describe('#cellAlive', function(){
 	it('returns true when a cell is alive, false when it is dead',function(){
 	  b = new Board(10)
+	  b.cells[1][1].alive = false
 	  expect(b.cellAlive(1,1)).to.be(false)
 	  b.cells[1][1].alive = true
 	  expect(b.cellAlive(1,1)).to.be(true)
@@ -71,8 +77,15 @@ describe('Board', function (){
   })
 
   describe('#countAliveNeighbours', function(){
+	it('returns 8 when all neighbours are alive',function(){
+	  b = new Board(10)
+	  simple.mock(b, 'cellAlive').returnWith(true) // Stub
+	  expect(b.countAliveNeighbours(1,1)).to.be(8)
+	})
+
 	it('returns 0 when all neighbours are dead',function(){
 	  b = new Board(10)
+	  simple.mock(b, 'cellAlive').returnWith(false) // Stub
 	  expect(b.countAliveNeighbours(1,1)).to.be(0)
 	})
   })

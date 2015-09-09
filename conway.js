@@ -2,8 +2,10 @@ var cell =  {
   alive: false
 }
 
-var Cell = function(){
+var Cell = function(alive){
   this.stuff = 'things'
+  
+  this.alive = alive ? alive : false
 }
 Cell.prototype = cell
 
@@ -15,32 +17,34 @@ Board = function(size){
   for(r = 0; r< size; r++){
 	var row = []
 	for(c = 0; c< size; c++){
-	  row.push(new Cell())
+	  row.push(new Cell(Math.random() < 0.5))
 	}
 	this.cells.push(row)
   }
 }
 
 Board.prototype = {
-  run: function(){
+  run: ()=>{
+	console.log(this)
 	this.deathCycle()
 	this.birthCycle()
 	this.displayBoard()
   },
 
-  displayBoard: function(){
+  displayBoard: ()=>{
 	for(i=0; i<this.cells.length; i++){
 	  this.displayRow(this.cells[i])
+	  process.stdout.write('\n')
 	}
   },
 
-  displayRow: function(row){
-	for(i=0; i<row.length; i++){
-	  this.displayCell(row[i])
+  displayRow: (row)=>{
+	for(j=0; j<row.length; j++){
+	  this.displayCell(row[j])
 	}
   },
 
-  displayCell: function(cell){
+  displayCell: (cell)=>{
 	var char = cell.alive ? '|X|' : '| |'
 	process.stdout.write(char)
   },
@@ -48,7 +52,7 @@ Board.prototype = {
 
   neighbours: [[-1,1],[0,1],[1,1],[1,0],[1,-1],[0,-1],[-1,-1],[-1,0]],
 
-  cellAlive: function(r,c){
+  cellAlive: (r,c)=>{
 	if(this.outOfBounds(r) || this.outOfBounds(c)){
 	  return false
 	}
@@ -57,34 +61,15 @@ Board.prototype = {
 	}
   },
 
-  atEachLocation: function(f){
+  atEachLocation: (f)=>{
 	for(r = 0; r < this.cells.length; r++){
 	  for(c = 0; c < this.cells.length; c++){
-		f(r, c)
+		f(r, c, this)
 	  }
 	}
   },
 
-  deathCycle: function(){
-	this.atEachLocation(function(r,c){
-	  var aliveNeighbours = this.countAliveNeighbours(r,c)
-
-	  if(over_populated(aliveNeighbours) || under_populated(aliveNeighbours)){
-		this.cells[r][c].alive = false
-	  }
-	})
-  },
-
-  birthCycle: function(){
-	this.atEachLocation(function(){
-	  var aliveNeighbours = this.countAliveNeighbours(r,c)
-	  if(ressurectable(aliveNeighbours)){
-		this.cells[r][c].alive = true
-	  }
-	})
-  },
-
-  countAliveNeighbours: function(r,c){
+  countAliveNeighbours: (r,c)=>{
 	var count = 0;
 
 	for(i = 0; i < this.neighbours.length; i++){
@@ -94,19 +79,39 @@ Board.prototype = {
 	}
 	return count
   },
-  under_populated: function(num_neighbours){
+
+  deathCycle: () =>{
+	this.atEachLocation((r,c)=>{
+	  var aliveNeighbours = this.countAliveNeighbours(r,c)
+
+	  if(this.over_populated(aliveNeighbours) || this.under_populated(aliveNeighbours)){
+		this.cells[r][c].alive = false
+	  }
+	})
+  },
+
+  birthCycle: ()=>{
+	this.atEachLocation((r,c)=>{
+	  var aliveNeighbours = this.countAliveNeighbours(r,c)
+	  if(this.ressurectable(aliveNeighbours)){
+		this.cells[r][c].alive = true
+	  }
+	})
+  },
+
+  under_populated: (num_neighbours)=>{
 	return num_neighbours < 2
   },
 
-  over_populated: function(num_neighbours){
+  over_populated: (num_neighbours)=> {
 	return num_neighbours > 3
   },
 
-  ressurectable: function(num_neighbours){
+  ressurectable: (num_neighbours)=>{
 	return num_neighbours === 3
   },
 
-  outOfBounds: function(index){
+  outOfBounds: (index)=>{
 	return index < 0 || index >= this.cells.length
   }
 
